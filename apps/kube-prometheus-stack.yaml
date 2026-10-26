@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: beams-incident-management-kube-prometheus-stack
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: default
+  destination:
+    name: kaichevannes-teleport.uk-incident-k3s
+    namespace: monitoring
+  sources:
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
+      targetRevision: 92.11.0
+      helm:
+        releaseName: kube-prometheus-stack
+        valueFiles:
+          - $values/terraform/labs/beams-incident-management/kubernetes/kube-prometheus-stack/values.yaml
+    - repoURL: https://github.com/kaichevannes/teleport-lab.git
+      targetRevision: main
+      path: terraform/labs/beams-incident-management/kubernetes/kube-prometheus-stack/manifests
+      ref: values
+      directory:
+        recurse: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

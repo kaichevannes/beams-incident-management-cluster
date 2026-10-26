@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: beams-incident-management-workloads
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  destination:
+    name: kaichevannes-teleport.uk-incident-k3s
+    namespace: workloads
+  source:
+    repoURL: https://github.com/kaichevannes/teleport-lab.git
+    targetRevision: main
+    path: terraform/labs/beams-incident-management/kubernetes/workloads
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,47 @@
+grafana:
+  enabled: false
+
+alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    secrets:
+      - pagerduty-routing-key
+  config:
+    route:
+      receiver: "null"
+      routes:
+        - receiver: pagerduty
+          matchers:
+            - pagerduty = "true"
+    receivers:
+      - name: "null"
+      - name: pagerduty
+        pagerduty_configs:
+          - routing_key_file: /etc/alertmanager/secrets/pagerduty-routing-key/routing-key
+            description: "{{ .CommonAnnotations.summary }}"
+            details:
+              description: "{{ .CommonAnnotations.description }}"
+
+prometheus:
+  enabled: true
+  prometheusSpec:
+    podMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+additionalPrometheusRulesMap:
+  workloads:
+    groups:
+      - name: workloads
+        rules:
+          - alert: WorkloadUnavailable
+            expr: |
+              kube_deployment_status_replicas_available{
+                namespace="workloads"
+              } == 0
+            for: 1m
+            labels:
+              severity: critical
+              pagerduty: "true"
+            annotations:
+              summary: "{{ $labels.deployment }} down"
+              description: "{{ $labels.deployment }} in namespace {{ $labels.namespace }} has been down for more than 1 minute."

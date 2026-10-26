@@ -1,0 +1,10 @@
+apiVersion: external-secrets.io/v1
+kind: ClusterSecretStore
+metadata:
+  name: aws-ssm
+spec:
+  provider:
+    aws:
+      service: ParameterStore
+      region: eu-west-1
+      prefix: /teleport/kai-lab/
