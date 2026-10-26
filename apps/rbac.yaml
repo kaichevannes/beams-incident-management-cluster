@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rbac
+  name: beams-incident-management-rbac
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
