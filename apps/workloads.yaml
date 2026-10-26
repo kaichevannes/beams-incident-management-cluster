@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://github.com/kaichevannes/teleport-lab.git
     targetRevision: main
-    path: terraform/labs/beams-incident-management/kubernetes/workloads
+    path: workloads
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

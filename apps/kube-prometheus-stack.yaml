@@ -22,7 +22,7 @@ spec:
           - $values/terraform/labs/beams-incident-management/kubernetes/kube-prometheus-stack/values.yaml
     - repoURL: https://github.com/kaichevannes/teleport-lab.git
       targetRevision: main
-      path: terraform/labs/beams-incident-management/kubernetes/kube-prometheus-stack/manifests
+      path: kube-prometheus-stack/manifests
       ref: values
       directory:
         recurse: true
