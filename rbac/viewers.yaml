@@ -4,7 +4,7 @@ metadata:
   name: viewers
 subjects:
   - kind: Group
-    name: beams-incident-management-readonly
+    name: viewers
     apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
