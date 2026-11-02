@@ -19,11 +19,11 @@ spec:
       helm:
         releaseName: kube-prometheus-stack
         valueFiles:
-          - $values/terraform/labs/beams-incident-management/kubernetes/kube-prometheus-stack/values.yaml
+          - $values/monitoring/values.yaml
     - repoURL: https://github.com/kaichevannes/teleport-lab.git
       targetRevision: main
-      path: kube-prometheus-stack/manifests
       ref: values
+      path: kube-prometheus-stack/manifests
       directory:
         recurse: true
   syncPolicy:
